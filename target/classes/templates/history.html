@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>History</title>
+</head>
+<body>
+<form method="POST" action="/history" th:object="${charCode}">
+    <select type="text" th:field="*{charCodeFrom}" name="charCodeFrom" size="1">
+        <div th:each="valuta : ${valutes}">
+            <option th:value="${valuta.getISO_Char_Code()}" th:text="${valuta.getName()}+'('+${valuta.getISO_Char_Code()}+')'">-</option>
+        </div>
+    </select>
+    <select type="text"  th:field="*{charCodeTo}" name="charCodeTo" size="1">
+        <div th:each="valuta : ${valutes}">
+            <option th:value="${valuta.getISO_Char_Code()}" th:text="${valuta.getName()}+'('+${valuta.getISO_Char_Code()}+')'">-</option>
+        </div>
+    </select></br>
+    <input th:field="*{date}" type="date" placeholder="Дата"/>
+    <button type="submit">Найти</button>
+</form>
+<div th:each="hist : ${history}">
+    <span style="color:red">Date:</span><span th:text="${hist.getDate()}">date</span>
+    <span style="color:red">Convert from:</span><span style=”margin-left:40px; th:text="${hist.getNameFrom()}+'('+${hist.getCharCodeFrom()}+')'">name</span>
+    <span style="color:red">Convert to:</span><span style=”margin:20px; th:text="${hist.getNameTo()}+'('+${hist.getCharCodeTo()}+')'">name</span>
+    <span style="color:red">Count from:</span><span style=”margin:20px; th:text="${hist.getValueFrom()}">value</span>
+    <span style="color:red">Count to:</span><span style=”margin:20px; th:text="${hist.getValueTo()}">value</span></br>
+</div>
+<a href="/">Главная</a>
+</body>
+</html>

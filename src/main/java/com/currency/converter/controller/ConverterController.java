@@ -36,7 +36,7 @@ public class ConverterController {
     @Autowired
     public HistoryService historyService;
     @GetMapping()
-    public String valuta(Model model, @ModelAttribute("charCode") CharCode charCode, @RequestParam(name = "value", required = false) Float value) throws JAXBException, IOException {
+    public String valuta(Model model, @ModelAttribute("charCode") CharCode charCode, @RequestParam(name = "from", required = false) String from, @RequestParam(name = "to", required = false) String to, @RequestParam(name = "value", required = false) Float value) throws JAXBException, IOException {
         XML xml = new XML();
         BufferedReader buf =xml.getXml("https://cbr.ru/scripts/XML_valFull.asp?d=0");
         JAXBContext context = JAXBContext.newInstance(Valuta.class);
@@ -44,6 +44,8 @@ public class ConverterController {
         Valuta valuta = (Valuta) unmarshaller.unmarshal(buf);
         model.addAttribute("valutes", valuta.getItem());
         model.addAttribute("value", value);
+        model.addAttribute("from",from);
+        model.addAttribute("to",to);
         return "valuta";
     }
 
@@ -75,6 +77,8 @@ public class ConverterController {
         History history = new History(Date.valueOf(date1), cursFrom.getName(), cursTo.getName(), cursFrom.getCharCode(), cursTo.getCharCode(), Float.parseFloat(count.replace(',','.')), res);
         historyService.save(history);
         redirectAtt.addAttribute("value", res);
+        redirectAtt.addAttribute("from", cursFrom.getName());
+        redirectAtt.addAttribute("to", cursTo.getName());
         return "redirect:/converter";
     }
 
