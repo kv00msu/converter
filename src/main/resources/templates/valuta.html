@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org"  xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form method="POST" action="/converter" th:object="${charCode}">
+    <select type="text" th:field="*{charCodeFrom}" name="charCodeFrom" size="1">
+        <div th:each="valuta : ${valutes}">
+        <option th:value="${valuta.getISO_Char_Code()}" th:text="${valuta.getName()}+'('+${valuta.getISO_Char_Code()}+')'">-</option>
+        </div>
+    </select>
+    <select type="text"  th:field="*{charCodeTo}" name="charCodeTo" size="1">
+        <div th:each="valuta : ${valutes}">
+            <option th:value="${valuta.getISO_Char_Code()}" th:text="${valuta.getName()}+'('+${valuta.getISO_Char_Code()}+')'">-</option>
+        </div>
+    </select></br>
+    <input name="count" type="int"/>
+    <button type="submit">Отправить!</button>
+</form>
+</br>
+<span th:text="${value}">value</span>
+<h4><a href="/logout">Выйти</a></h4>
+<a href="/">Главная</a>
+</body>
+</html>
